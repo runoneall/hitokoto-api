@@ -1,4 +1,4 @@
-# hitokoto-cf
+# hitokoto-api
 
 自用的 hitokoto api 的 Cloudflare Worker/Vercel Edge Function 实现，仅支持随机分类和 JSON 格式
 
