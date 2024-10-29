@@ -1,35 +1,15 @@
-function r(max) {
-    return Math.floor(Math.random() * max + 1);
-}
-async function f(req) {
-    return new Promise((res, rej) => {
-        fetch(
-            "https://cdn.jsdelivr.net/gh/hitokoto-osc/sentences-bundle@1.0.306/categories.json"
-        )
-            .then(resp => resp.json())
-            .then(j => {
-                fetch(
-                    "https://cdn.jsdelivr.net/gh/hitokoto-osc/sentences-bundle@1.0.306/" +
-                        (j[r(j.length)] || j[0]).path
-                )
-                    .then(resp => resp.json())
-                    .then(j => {
-                        res(
-                            new Response(JSON.stringify(j[r(j.length)] || j[0]), {
-                                headers: {'Content-Type': 'application/json'}
-                            })
-                        );
-                    });
-            });
-    });
-}
-f.fetch = f;
-export const config = {
-    runtime: "edge",
-};
+addEventListener('fetch', event => {
+  event.respondWith(handleRequest(event.request));
+});
 
-export default {
-    async fetch(r, env, ctx) {
-        return f(r);
-    },
-};
+async function handleRequest(request) {
+  const alphabet = "abcdefghijkl";
+  const randomLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
+  const url = `https://cdn.jsdelivr.net/gh/hitokoto-osc/sentences-bundle@latest/sentences/${randomLetter}.json`;
+  const response = await fetch(url);
+  const data = await response.json();
+  const randomData = data[Math.floor(Math.random * data.length)];
+  const jsonResponse = JSON.stringify(randomData);
+  const headers = { 'Content-Type': 'application/json' };
+  return new Response(jsonResponse, { headers });
+}
