@@ -15,7 +15,9 @@ async function f(req) {
                     .then(resp => resp.json())
                     .then(j => {
                         res(
-                            new Response(JSON.stringify(j[r(j.length)] || j[0]))
+                            new Response(JSON.stringify(j[r(j.length)] || j[0]), {
+                                headers: {'Content-Type': 'application/json'}
+                            })
                         );
                     });
             });
