@@ -25,4 +25,9 @@ f.fetch = f;
 export const config = {
     runtime: "edge",
 };
-export default f;
+
+export default {
+    async fetch(r, env, ctx) {
+        return f(r);
+    },
+};
