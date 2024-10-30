@@ -10,6 +10,9 @@ async function handleRequest(request) {
   const data = await response.json();
   const randomData = data[Math.floor(Math.random() * data.length)];
   const jsonResponse = JSON.stringify(randomData);
-  const headers = { 'Content-Type': 'application/json' };
+  const headers = { 
+    'Content-Type': 'application/json', 
+    'Access-Control-Allow-Origin': '*'
+  };
   return new Response(jsonResponse, { headers });
 }
